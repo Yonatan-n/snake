@@ -1,0 +1,69 @@
+body {
+  background-color: bisque;
+  color: #0a5;
+  font-family: 'VT323', monospace;
+}
+#description {
+  text-align: center;
+}
+#h-one {
+  text-align: center;
+}
+/*p {
+  color: brown;
+} */
+.center {
+  /* margin: 0 auto;
+  max-width: 500px;
+  height: auto; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#main {
+  display: grid;
+  /* grid-template-rows: 3fr 5fr 1fr 3fr; */ /* do grid thing */
+}
+
+#controls {
+  background-color: #ccc;
+  font-size: 3.6em;
+  font-weight: bold;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+
+.arrows {
+  border: 0.1em solid black;
+  color: cornflowerblue;
+}
+.arrows:hover {
+  color: rgb(200, 149, 100);
+}
+.arrows:active {
+  color: orange;
+}
+
+canvas {
+  background-color: #ccc;
+}
+
+#isPhone {
+  color: black;
+}
+
+@media only screen and (max-width: 600px) {
+  #isPhone {
+    color: white;
+  }
+  body {
+    background-color: aquamarine;
+  }
+  #center {
+    border: 0px;
+  }
+  canvas {
+    width: 100%;
+  }
+}

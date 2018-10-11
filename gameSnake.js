@@ -36,10 +36,10 @@ function initCanvas () {
 }
 
 function draw () {
+  window.requestAnimationFrame(draw)
+  ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight)
   ctx.fillStyle = 'blue'
-  ctx.fillRect(snake.x, snake.y, 100, 100)
+  ctx.fillRect(snake.x, snake.y, 50, 50)
   snake.x += snake.speed
   snake.y += 0
-  console.log(snake)
-  window.requestAnimationFrame(draw)
 }

@@ -189,12 +189,21 @@ function initArrowControls() {
   var myEvent = isPhone() ? 'touchstart' : 'click';
   var ctrl = document.querySelector('#controls');
   var arrows = ctrl.children;
+  var falseMove = {
+    'up': 'down',
+    'down': 'up',
+    'left': 'right',
+    'right': 'left'
+  };
 
   for (var i = 0; i < arrows.length; i++) {
     arrows[i].addEventListener(myEvent, function (x) {
-      snake.dir = x.target.id;
+      if (falseMove[x.target.id] !== snake.dir) {
+        snake.dir = x.target.id;
+      }
     });
-  }
+  } // need to add falseMove to this function too, cause you can make a u turn with out the u
+
 
   document.addEventListener('keydown', function (x) {
     var dirKeys = {
@@ -202,12 +211,6 @@ function initArrowControls() {
       'a': 'left',
       's': 'down',
       'd': 'right'
-    };
-    var falseMove = {
-      'up': 'down',
-      'down': 'up',
-      'left': 'right',
-      'right': 'left'
     };
 
     if (dirKeys[x.key] !== undefined && falseMove[dirKeys[x.key]] !== snake.dir) {

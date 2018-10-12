@@ -117,7 +117,7 @@ var snake = {
   dir: 'right',
   speed: 20,
   border: 2,
-  length: 3,
+  length: 5,
   tail: [{
     x: 0,
     y: 0
@@ -126,6 +126,12 @@ var snake = {
     y: 0
   }, {
     x: 40,
+    y: 0
+  }, {
+    x: 60,
+    y: 0
+  }, {
+    x: 80,
     y: 0
   }],
   incSpeedX: function incSpeedX() {
@@ -225,7 +231,7 @@ function funkTitle() {
 }
 
 function initCanvas() {
-  ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight); // console.log(canvas.clientWidth)
+  ctx.clearRect(0, 0, canvas.width, canvas.height); // console.log(canvas.clientWidth)
 
   ctx.fillStyle = 'black'; // ctx.rotate(Math.PI / 180 * 10)
 
@@ -246,7 +252,7 @@ function randChoice(xs) {
 
 function draw() {
   ctx.fillStyle = 'black';
-  ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = 'yellow';
 
   for (var i = 0; i < snake.length; i++) {

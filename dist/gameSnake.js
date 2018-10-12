@@ -109,10 +109,7 @@ var canvas = document.getElementById('snakeCanvas');
 var ctx = canvas.getContext('2d');
 var colorList = ['whitesmoke', 'green', 'blue', 'burlywood', 'violet', 'pink', 'crimson', 'cadetblue', 'rosybrown', 'royalblue', 'red', 'rebeccapurple', 'yellowgreen', 'yellow', 'palevioletred', 'palegreen', 'salmon', 'aqua'];
 var snake = {
-  body: [[0, 0], [20, 0], [40, 0], [60, 0]],
-  food: [[100, 100], [120, 120]],
-  x: 0,
-  y: 0,
+  grid: [],
   width: 20,
   dir: 'right',
   speed: 20,
@@ -134,8 +131,15 @@ var snake = {
     x: 80,
     y: 200
   }],
+  food: {
+    x: 580,
+    y: 580
+  },
   incSpeedX: function incSpeedX() {
     this.x += this.speed;
+  },
+  hd: function hd() {
+    return this.tail[this.length - 1];
   },
   move: function move() {
     var change;
@@ -176,6 +180,12 @@ window.onload = function () {
   initCanvas();
   initArrowControls();
   funkTitle();
+
+  for (var i = 0; i <= 580; i += 20) {
+    snake.grid.push(i);
+  }
+
+  genRandFood();
 };
 
 function isPhone() {
@@ -232,7 +242,7 @@ function funkTitle() {
   document.querySelector('#h-one').addEventListener('click', function (x) {
     window.setInterval(function () {
       switchThisColor(x.srcElement);
-    }, 1000);
+    }, 1000 / 3);
     return 0;
   }); // switchThisColor(, undefined)
 
@@ -266,10 +276,27 @@ function draw() {
 
   for (var i = 0; i < snake.length; i++) {
     var xy = snake.tail[i];
-    drawAllWithBorder([xy.x, xy.y]); // ctx.fillRect(snake.tail[i].x, snake.tail[i].y, snake.width, snake.width)
+    drawAllWithBorder([xy.x, xy.y]);
   }
 
-  snake.move(); // window.requestAnimationFrame(draw)
+  snake.move();
+  /* ctx.beginPath()
+  ctx.fillStyle = 'limegreen'
+  ctx.fillRect(snake.food.x, snake.food.y, snake.width, snake.width)
+  ctx.fill()
+  ctx.closePath() */
+
+  ctx.beginPath();
+  ctx.fillStyle = 'red';
+  ctx.arc(snake.food.x + 10, snake.food.y + 10, snake.width / 2, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.closePath();
+
+  if (snake.food.x === snake.hd().x && snake.food.y === snake.hd().y) {
+    snake.tail.unshift(snake.tail[0]);
+    snake.length += 1;
+    genRandFood();
+  } // window.requestAnimationFrame(draw)
   // ;({ x, y, width } = snake) // eslint-disable-line
   // const leftest = snake.body[0]
   // ctx.clearRect(leftest[0], leftest[1], snake.width, snake.width)
@@ -284,6 +311,7 @@ function draw() {
   }) */
   // snake.body = snake.body.slice(1).concat(xs[0])
   // ctx.fillRect(snake.x, snake.y, width, width)
+
 }
 
 function drawAllWithBorder(xy) {
@@ -293,6 +321,13 @@ function drawAllWithBorder(xy) {
   ctx.fillRect(xy[0], xy[1], wd, wd);
   ctx.fillStyle = 'yellow';
   ctx.fillRect(xy[0] + br / 2, xy[1] + br / 2, wd - br, wd - br);
+}
+
+function genRandFood() {
+  snake.food = {
+    x: randChoice(snake.grid),
+    y: randChoice(snake.grid)
+  };
 }
 },{}],"../../../.npm-global/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];

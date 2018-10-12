@@ -21,10 +21,7 @@ const colorList = [
   'aqua'
 ]
 var snake = {
-  body: [[0, 0], [20, 0], [40, 0], [60, 0]],
-  food: [[100, 100], [120, 120]],
-  x: 0,
-  y: 0,
+  grid: [],
   width: 20,
   dir: 'right',
   speed: 20,
@@ -37,8 +34,12 @@ var snake = {
     { x: 60, y: 200 },
     { x: 80, y: 200 }
   ],
+  food: { x: 580, y: 580 },
   incSpeedX: function () {
     this.x += this.speed
+  },
+  hd: function () {
+    return this.tail[this.length - 1]
   },
   move: function () {
     let change
@@ -68,7 +69,15 @@ var snake = {
     })
   }
 }
-window.onload = function () { initCanvas(); initArrowControls(); funkTitle() }
+window.onload = function () {
+  initCanvas()
+  initArrowControls()
+  funkTitle()
+  for (let i = 0; i <= 580; i += 20) {
+    snake.grid.push(i)
+  }
+  genRandFood()
+}
 
 function isPhone () {
   const flag = document.querySelector('#isPhone')
@@ -101,8 +110,7 @@ function initArrowControls () {
       's': 'down',
       'd': 'right'
     }
-    if (dirKeys[x.key] !== undefined &&
-        falseMove[dirKeys[x.key]] !== snake.dir) {
+    if (dirKeys[x.key] !== undefined && falseMove[dirKeys[x.key]] !== snake.dir) {
       snake.dir = dirKeys[x.key]
     } else {
       console.log('na')
@@ -117,7 +125,7 @@ function switchThisColor (me, xs = colorList) {
 }
 function funkTitle () {
   document.querySelector('#h-one').addEventListener('click', function (x) {
-    window.setInterval(function () { switchThisColor(x.srcElement) }, 1000)
+    window.setInterval(function () { switchThisColor(x.srcElement) }, 1000 / 3)
     return 0
   })
   // switchThisColor(, undefined)
@@ -150,9 +158,26 @@ function draw () {
   for (let i = 0; i < snake.length; i++) {
     const xy = snake.tail[i]
     drawAllWithBorder([xy.x, xy.y])
-    // ctx.fillRect(snake.tail[i].x, snake.tail[i].y, snake.width, snake.width)
   }
+
   snake.move()
+  /* ctx.beginPath()
+  ctx.fillStyle = 'limegreen'
+  ctx.fillRect(snake.food.x, snake.food.y, snake.width, snake.width)
+  ctx.fill()
+  ctx.closePath() */
+
+  ctx.beginPath()
+  ctx.fillStyle = 'red'
+  ctx.arc(snake.food.x + 10, snake.food.y + 10, snake.width / 2, 0, Math.PI * 2)
+  ctx.fill()
+  ctx.closePath()
+
+  if (snake.food.x === snake.hd().x && snake.food.y === snake.hd().y) {
+    snake.tail.unshift(snake.tail[0])
+    snake.length += 1
+    genRandFood()
+  }
   // window.requestAnimationFrame(draw)
   // ;({ x, y, width } = snake) // eslint-disable-line
   // const leftest = snake.body[0]
@@ -176,4 +201,11 @@ function drawAllWithBorder (xy) {
   ctx.fillRect(xy[0], xy[1], wd, wd)
   ctx.fillStyle = 'yellow'
   ctx.fillRect(xy[0] + (br / 2), xy[1] + (br / 2), wd - br, wd - br)
+}
+
+function genRandFood () {
+  snake.food = {
+    x: randChoice(snake.grid),
+    y: randChoice(snake.grid)
+  }
 }

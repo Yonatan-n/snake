@@ -1,10 +1,22 @@
 var canvas = document.getElementById('snakeCanvas')
 var ctx = canvas.getContext('2d')
 var snake = {
+  body: [[0, 0], [20, 0], [40, 0], [60, 0]],
+  food: [[100, 100], [120, 120]],
   x: 0,
   y: 0,
+  width: 20,
   dir: 'right',
-  speed: 1
+  speed: 20,
+  incSpeedX: function () {
+    this.x += this.speed
+  },
+  incSpeedY: function () {
+    this.y += this.speed
+  },
+  moveX: function () {
+    this.body = this.body.map(x => [x[0] + 20, x[1]])
+  }
 }
 window.onload = function () { initCanvas(); initArrowControls() }
 
@@ -32,14 +44,27 @@ function initCanvas () {
   // ctx.rotate(Math.PI / 180 * 10)
   ctx.fillRect(500, 500, 100, 100)
   ctx.stroke()
-  window.requestAnimationFrame(draw)
+  // console.log(new Date())
+  // window.requestAnimationFrame(draw)
+  window.setInterval(draw, 300) // Main Loop!
 }
 
 function draw () {
-  window.requestAnimationFrame(draw)
-  ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight)
-  ctx.fillStyle = 'blue'
-  ctx.fillRect(snake.x, snake.y, 50, 50)
-  snake.x += snake.speed
-  snake.y += 0
+  // window.requestAnimationFrame(draw)
+  // ;({ x, y, width } = snake) // eslint-disable-line
+  const leftest = snake.body[0]
+  ctx.clearRect(leftest[0], leftest[1], snake.width, snake.width)
+  snake.moveX()
+  // snake.incSpeedX()
+  // snake.x += snake.speed
+  // snake.y += 0
+  // ;(() => snake.x === 600 ? console.log(new Date()) : null)()
+  snake.body.forEach(xy => {
+    ctx.fillStyle = 'black'
+    ctx.fillRect(xy[0], xy[1], snake.width, snake.width)
+    ctx.fillStyle = 'yellow'
+    ctx.fillRect(xy[0] + 2.5, xy[1] + 2.5, 15, 15)
+  })
+  // snake.body = snake.body.slice(1).concat(xs[0])
+  // ctx.fillRect(snake.x, snake.y, width, width)
 }

@@ -107,6 +107,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 })({"gameSnake.js":[function(require,module,exports) {
 var canvas = document.getElementById('snakeCanvas');
 var ctx = canvas.getContext('2d');
+var colorList = ['whitesmoke', 'green', 'blue', 'burlywood', 'violet', 'pink', 'crimson', 'cadetblue', 'rosybrown', 'royalblue', 'red', 'rebeccapurple', 'yellowgreen', 'yellow', 'palevioletred', 'palegreen', 'salmon', 'aqua'];
 var snake = {
   body: [[0, 0], [20, 0], [40, 0], [60, 0]],
   food: [[100, 100], [120, 120]],
@@ -115,16 +116,41 @@ var snake = {
   width: 20,
   dir: 'right',
   speed: 20,
-  border: 5,
+  border: 2,
   incSpeedX: function incSpeedX() {
     this.x += this.speed;
   },
   incSpeedY: function incSpeedY() {
     this.y += this.speed;
   },
-  moveX: function moveX() {
+  move: function move() {
+    var change;
+    var spd = this.speed;
+
+    switch (this.dir) {
+      case 'right':
+        change = [spd, 0];
+        break;
+
+      case 'left':
+        change = [-spd, 0];
+        break;
+
+      case 'up':
+        change = [0, -spd];
+        break;
+
+      case 'down':
+        change = [0, spd];
+        break;
+
+      default:
+        console.error('error with snake dir', new Error());
+        break;
+    }
+
     this.body = this.body.map(function (x) {
-      return [x[0] + 20, x[1]];
+      return [x[0] + change[0], x[1] + change[1]];
     });
   }
 };
@@ -132,6 +158,7 @@ var snake = {
 window.onload = function () {
   initCanvas();
   initArrowControls();
+  funkTitle();
 };
 
 function isPhone() {
@@ -148,9 +175,27 @@ function initArrowControls() {
 
   for (var i = 0; i < arrows.length; i++) {
     arrows[i].addEventListener(myEvent, function (x) {
-      return console.log(x.target.id);
+      snake.dir = x.target.id;
+      console.log(snake);
     });
   }
+
+  return 0;
+}
+
+function switchThisColor(me) {
+  var xs = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : colorList;
+  me.style.color = randChoice(xs);
+  return 0;
+}
+
+function funkTitle() {
+  document.querySelector('#h-one').addEventListener('click', function (x) {
+    window.setInterval(function () {
+      switchThisColor(x.srcElement);
+    }, 1000);
+    return 0;
+  }); // switchThisColor(, undefined)
 
   return 0;
 }
@@ -167,12 +212,20 @@ function initCanvas() {
   window.setInterval(draw, 300); // Main Loop!
 }
 
+function randRange(l, h) {
+  return Math.floor(Math.random() * (h - l));
+}
+
+function randChoice(xs) {
+  return xs[randRange(0, xs.length)];
+}
+
 function draw() {
   // window.requestAnimationFrame(draw)
   // ;({ x, y, width } = snake) // eslint-disable-line
   var leftest = snake.body[0];
   ctx.clearRect(leftest[0], leftest[1], snake.width, snake.width);
-  snake.moveX(); // snake.incSpeedX()
+  snake.move(); // snake.incSpeedX()
   // snake.x += snake.speed
   // snake.y += 0
   // ;(() => snake.x === 600 ? console.log(new Date()) : null)()
@@ -190,7 +243,7 @@ function drawAllWithBorder(xy) {
   ctx.fillRect(xy[0], xy[1], wd, wd);
   ctx.fillStyle = 'yellow';
   ctx.fillRect(xy[0] + br / 2, xy[1] + br / 2, wd - br, wd - br);
-} // test config2
+}
 },{}],"../../../.npm-global/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';

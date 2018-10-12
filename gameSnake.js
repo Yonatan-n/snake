@@ -1,5 +1,25 @@
 var canvas = document.getElementById('snakeCanvas')
 var ctx = canvas.getContext('2d')
+const colorList = [
+  'whitesmoke',
+  'green',
+  'blue',
+  'burlywood',
+  'violet',
+  'pink',
+  'crimson',
+  'cadetblue',
+  'rosybrown',
+  'royalblue',
+  'red',
+  'rebeccapurple',
+  'yellowgreen',
+  'yellow',
+  'palevioletred',
+  'palegreen',
+  'salmon',
+  'aqua'
+]
 var snake = {
   body: [[0, 0], [20, 0], [40, 0], [60, 0]],
   food: [[100, 100], [120, 120]],
@@ -8,18 +28,37 @@ var snake = {
   width: 20,
   dir: 'right',
   speed: 20,
-  border: 5,
+  border: 2,
   incSpeedX: function () {
     this.x += this.speed
   },
   incSpeedY: function () {
     this.y += this.speed
   },
-  moveX: function () {
-    this.body = this.body.map(x => [x[0] + 20, x[1]])
+  move: function () {
+    let change
+    const spd = this.speed
+    switch (this.dir) {
+      case 'right':
+        change = [spd, 0]
+        break
+      case 'left':
+        change = [-spd, 0]
+        break
+      case 'up':
+        change = [0, -spd]
+        break
+      case 'down':
+        change = [0, spd]
+        break
+      default:
+        console.error('error with snake dir', new Error())
+        break
+    }
+    this.body = this.body.map(x => [x[0] + change[0], x[1] + change[1]])
   }
 }
-window.onload = function () { initCanvas(); initArrowControls() }
+window.onload = function () { initCanvas(); initArrowControls(); funkTitle() }
 
 function isPhone () {
   const flag = document.querySelector('#isPhone')
@@ -33,8 +72,21 @@ function initArrowControls () {
   const ctrl = document.querySelector('#controls')
   let arrows = ctrl.children
   for (let i = 0; i < arrows.length; i++) {
-    arrows[i].addEventListener(myEvent, (x) => console.log(x.target.id))
+    arrows[i].addEventListener(myEvent, function (x) { snake.dir = (x.target.id); console.log(snake) })
   }
+  return 0
+}
+
+function switchThisColor (me, xs = colorList) {
+  me.style.color = randChoice(xs)
+  return 0
+}
+function funkTitle () {
+  document.querySelector('#h-one').addEventListener('click', function (x) {
+    window.setInterval(function () { switchThisColor(x.srcElement) }, 1000)
+    return 0
+  })
+  // switchThisColor(, undefined)
   return 0
 }
 
@@ -50,12 +102,19 @@ function initCanvas () {
   window.setInterval(draw, 300) // Main Loop!
 }
 
+function randRange (l, h) {
+  return Math.floor(Math.random() * (h - l))
+}
+function randChoice (xs) {
+  return xs[randRange(0, xs.length)]
+}
+
 function draw () {
   // window.requestAnimationFrame(draw)
   // ;({ x, y, width } = snake) // eslint-disable-line
   const leftest = snake.body[0]
   ctx.clearRect(leftest[0], leftest[1], snake.width, snake.width)
-  snake.moveX()
+  snake.move()
   // snake.incSpeedX()
   // snake.x += snake.speed
   // snake.y += 0
@@ -75,4 +134,3 @@ function drawAllWithBorder (xy) {
   ctx.fillStyle = 'yellow'
   ctx.fillRect(xy[0] + (br / 2), xy[1] + (br / 2), wd - br, wd - br)
 }
-// test config2

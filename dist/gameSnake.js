@@ -117,11 +117,19 @@ var snake = {
   dir: 'right',
   speed: 20,
   border: 2,
+  length: 3,
+  tail: [{
+    x: 0,
+    y: 0
+  }, {
+    x: 20,
+    y: 0
+  }, {
+    x: 40,
+    y: 0
+  }],
   incSpeedX: function incSpeedX() {
     this.x += this.speed;
-  },
-  incSpeedY: function incSpeedY() {
-    this.y += this.speed;
   },
   move: function move() {
     var change;
@@ -149,8 +157,11 @@ var snake = {
         break;
     }
 
-    this.body = this.body.map(function (x) {
-      return [x[0] + change[0], x[1] + change[1]];
+    var hd = snake.tail[snake.length - 1];
+    snake.tail.shift();
+    snake.tail.push({
+      x: hd.x + change[0],
+      y: hd.y + change[1]
     });
   }
 };
@@ -222,7 +233,7 @@ function initCanvas() {
   ctx.stroke(); // console.log(new Date())
   // window.requestAnimationFrame(draw)
 
-  window.setInterval(draw, 300); // Main Loop!
+  window.setInterval(draw, 1000 / 10); // Main Loop!
 }
 
 function randRange(l, h) {
@@ -234,18 +245,29 @@ function randChoice(xs) {
 }
 
 function draw() {
-  // window.requestAnimationFrame(draw)
+  ctx.fillStyle = 'black';
+  ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+  ctx.fillStyle = 'yellow';
+
+  for (var i = 0; i < snake.length; i++) {
+    var xy = snake.tail[i];
+    drawAllWithBorder([xy.x, xy.y]); // ctx.fillRect(snake.tail[i].x, snake.tail[i].y, snake.width, snake.width)
+  }
+
+  snake.move(); // window.requestAnimationFrame(draw)
   // ;({ x, y, width } = snake) // eslint-disable-line
-  var leftest = snake.body[0];
-  ctx.clearRect(leftest[0], leftest[1], snake.width, snake.width);
-  snake.move(); // snake.incSpeedX()
+  // const leftest = snake.body[0]
+  // ctx.clearRect(leftest[0], leftest[1], snake.width, snake.width)
+  // snake.move()
+  // snake.incSpeedX()
   // snake.x += snake.speed
   // snake.y += 0
   // ;(() => snake.x === 600 ? console.log(new Date()) : null)()
 
-  snake.body.forEach(function (xy) {
-    drawAllWithBorder(xy);
-  }); // snake.body = snake.body.slice(1).concat(xs[0])
+  /* snake.body.forEach(xy => {
+    drawAllWithBorder(xy)
+  }) */
+  // snake.body = snake.body.slice(1).concat(xs[0])
   // ctx.fillRect(snake.x, snake.y, width, width)
 }
 

@@ -190,7 +190,7 @@ function drawAllWithBorder(xy) {
   ctx.fillRect(xy[0], xy[1], wd, wd);
   ctx.fillStyle = 'yellow';
   ctx.fillRect(xy[0] + br / 2, xy[1] + br / 2, wd - br, wd - br);
-}
+} // test config
 },{}],"../../../.npm-global/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';

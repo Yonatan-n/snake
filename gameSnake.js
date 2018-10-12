@@ -75,3 +75,4 @@ function drawAllWithBorder (xy) {
   ctx.fillStyle = 'yellow'
   ctx.fillRect(xy[0] + (br / 2), xy[1] + (br / 2), wd - br, wd - br)
 }
+// test config

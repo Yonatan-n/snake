@@ -8,6 +8,7 @@ var snake = {
   width: 20,
   dir: 'right',
   speed: 20,
+  border: 5,
   incSpeedX: function () {
     this.x += this.speed
   },
@@ -60,11 +61,17 @@ function draw () {
   // snake.y += 0
   // ;(() => snake.x === 600 ? console.log(new Date()) : null)()
   snake.body.forEach(xy => {
-    ctx.fillStyle = 'black'
-    ctx.fillRect(xy[0], xy[1], snake.width, snake.width)
-    ctx.fillStyle = 'yellow'
-    ctx.fillRect(xy[0] + 2.5, xy[1] + 2.5, 15, 15)
+    drawAllWithBorder(xy)
   })
   // snake.body = snake.body.slice(1).concat(xs[0])
   // ctx.fillRect(snake.x, snake.y, width, width)
+}
+
+function drawAllWithBorder (xy) {
+  const br = snake.border
+  const wd = snake.width
+  ctx.fillStyle = 'black'
+  ctx.fillRect(xy[0], xy[1], wd, wd)
+  ctx.fillStyle = 'yellow'
+  ctx.fillRect(xy[0] + (br / 2), xy[1] + (br / 2), wd - br, wd - br)
 }

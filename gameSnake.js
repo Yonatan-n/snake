@@ -72,8 +72,21 @@ function initArrowControls () {
   const ctrl = document.querySelector('#controls')
   let arrows = ctrl.children
   for (let i = 0; i < arrows.length; i++) {
-    arrows[i].addEventListener(myEvent, function (x) { snake.dir = (x.target.id); console.log(snake) })
+    arrows[i].addEventListener(myEvent, function (x) { snake.dir = (x.target.id) })
   }
+  document.addEventListener('keydown', function (x) {
+    const dirKeys = {
+      'w': 'up',
+      'a': 'left',
+      's': 'down',
+      'd': 'right'
+    }
+    if (dirKeys[x.key] !== undefined) {
+      snake.dir = dirKeys[x.key]
+    } else {
+      console.log('na')
+    }
+  })
   return 0
 }
 

@@ -153,45 +153,27 @@ function randChoice (xs) {
 
 function draw () {
   ctx.fillStyle = 'black'
-  ctx.clearRect(0, 0, canvas.width, canvas.height)
-  ctx.fillStyle = 'yellow'
-  for (let i = 0; i < snake.length; i++) {
+  ctx.clearRect(0, 0, canvas.width, canvas.height) // clear prev paint
+  for (let i = 0; i < snake.length; i++) { // paint all the new (and old) snake points
     const xy = snake.tail[i]
     drawAllWithBorder([xy.x, xy.y])
   }
-
-  snake.move()
-  /* ctx.beginPath()
-  ctx.fillStyle = 'limegreen'
-  ctx.fillRect(snake.food.x, snake.food.y, snake.width, snake.width)
-  ctx.fill()
-  ctx.closePath() */
-
+  snake.move() // move to the next block
   ctx.beginPath()
   ctx.fillStyle = 'red'
   ctx.arc(snake.food.x + 10, snake.food.y + 10, snake.width / 2, 0, Math.PI * 2)
   ctx.fill()
-  ctx.closePath()
-
+  ctx.closePath() // draw the food
   if (snake.food.x === snake.hd().x && snake.food.y === snake.hd().y) {
     snake.tail.unshift(snake.tail[0])
     snake.length += 1
     genRandFood()
-  }
-  // window.requestAnimationFrame(draw)
-  // ;({ x, y, width } = snake) // eslint-disable-line
-  // const leftest = snake.body[0]
-  // ctx.clearRect(leftest[0], leftest[1], snake.width, snake.width)
-  // snake.move()
-  // snake.incSpeedX()
-  // snake.x += snake.speed
-  // snake.y += 0
-  // ;(() => snake.x === 600 ? console.log(new Date()) : null)()
-  /* snake.body.forEach(xy => {
-    drawAllWithBorder(xy)
-  }) */
-  // snake.body = snake.body.slice(1).concat(xs[0])
-  // ctx.fillRect(snake.x, snake.y, width, width)
+  } // check if food is eaten, inc snake if does and draw new food
+  snake.tail.slice(0, snake.length - 1).forEach(block => {
+    if (eqJson(block, snake.hd())) {
+      deathSequence()
+    }
+  })
 }
 
 function drawAllWithBorder (xy) {
@@ -208,4 +190,10 @@ function genRandFood () {
     x: randChoice(snake.grid),
     y: randChoice(snake.grid)
   }
+}
+function eqJson (a, b) {
+  return JSON.stringify(a) === JSON.stringify(b)
+}
+function deathSequence () {
+  alert('dead! refresh 4 now')
 }

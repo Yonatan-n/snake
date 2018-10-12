@@ -120,19 +120,19 @@ var snake = {
   length: 5,
   tail: [{
     x: 0,
-    y: 0
+    y: 200
   }, {
     x: 20,
-    y: 0
+    y: 200
   }, {
     x: 40,
-    y: 0
+    y: 200
   }, {
     x: 60,
-    y: 0
+    y: 200
   }, {
     x: 80,
-    y: 0
+    y: 200
   }],
   incSpeedX: function incSpeedX() {
     this.x += this.speed;
@@ -203,8 +203,14 @@ function initArrowControls() {
       's': 'down',
       'd': 'right'
     };
+    var falseMove = {
+      'up': 'down',
+      'down': 'up',
+      'left': 'right',
+      'right': 'left'
+    };
 
-    if (dirKeys[x.key] !== undefined) {
+    if (dirKeys[x.key] !== undefined && falseMove[dirKeys[x.key]] !== snake.dir) {
       snake.dir = dirKeys[x.key];
     } else {
       console.log('na');

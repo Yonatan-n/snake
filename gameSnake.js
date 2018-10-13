@@ -1,7 +1,6 @@
 var canvas = document.getElementById('snakeCanvas')
 var ctx = canvas.getContext('2d')
 const colorList = [
-  'whitesmoke',
   'green',
   'blue',
   'burlywood',
@@ -200,5 +199,8 @@ function eqJson (a, b) {
   return JSON.stringify(a) === JSON.stringify(b)
 }
 function deathSequence () {
-  alert('dead! refresh 4 now')
+  const death = document.querySelector('#death').innerText
+  document.querySelector('#death').innerText = Number(death) + 1
+  snake.color = 'white'
+  // alert('dead! refresh 4 now')
 }

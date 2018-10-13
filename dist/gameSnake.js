@@ -107,7 +107,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 })({"gameSnake.js":[function(require,module,exports) {
 var canvas = document.getElementById('snakeCanvas');
 var ctx = canvas.getContext('2d');
-var colorList = ['whitesmoke', 'green', 'blue', 'burlywood', 'violet', 'pink', 'crimson', 'cadetblue', 'rosybrown', 'royalblue', 'red', 'rebeccapurple', 'yellowgreen', 'yellow', 'palevioletred', 'palegreen', 'salmon', 'aqua'];
+var colorList = ['green', 'blue', 'burlywood', 'violet', 'pink', 'crimson', 'cadetblue', 'rosybrown', 'royalblue', 'red', 'rebeccapurple', 'yellowgreen', 'yellow', 'palevioletred', 'palegreen', 'salmon', 'aqua'];
 var snake = {
   grid: [],
   width: 20,
@@ -328,7 +328,9 @@ function eqJson(a, b) {
 }
 
 function deathSequence() {
-  alert('dead! refresh 4 now');
+  var death = document.querySelector('#death').innerText;
+  document.querySelector('#death').innerText = Number(death) + 1;
+  snake.color = 'white'; // alert('dead! refresh 4 now')
 }
 },{}],"../../../.npm-global/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];

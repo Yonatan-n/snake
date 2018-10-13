@@ -1,5 +1,5 @@
 body {
-  background-color: rgb(226, 139, 33);
+  background-color: #aaa;
   color: #0a5;
   font-family: 'VT323', monospace;
 }
@@ -23,16 +23,7 @@ body {
 #main {
   display: grid;
   grid-gap: 0.1em;
-  /* grid-template-rows: 3fr 5fr 1fr 3fr; */ /* do grid thing */
-}
-
-#controls {
-  background-color: #ccc;
-  font-size: 3.6em;
-  font-weight: bold;
-  display: grid;
-  grid-gap: 0.1em;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  /*grid-template-rows: 3fr 5fr 1fr 3fr; */ /* do grid thing */
 }
 
 .score {
@@ -45,8 +36,12 @@ body {
 }
 
 .arrows {
-  border: 0.1em solid black;
+  border: 2px solid black;
   color: cornflowerblue;
+  background-color: #ccc;
+  font-size: 2em;
+  height: 100%;
+
 }
 .arrows:hover {
   color: rgb(200, 149, 100);
@@ -54,7 +49,36 @@ body {
 .arrows:active {
   color: orange;
 }
-
+#arrowBlock {
+  /* background: red; */
+  display: grid;
+  width: 50%;
+  grid-template: 1fr 1fr 1fr/ 1fr 1fr 1fr;
+/*   grid-template-rows: 5em 5em;
+  grid-column: auto 2fr auto; */
+}
+#up {
+  /* font-size: 2em; */
+  height: 100%;
+  grid-column: 2 / 3;
+  grid-row: 1 / 2;
+  /* font-size: 3em; */
+}
+#left {
+  height: 100%;
+  grid-column: 1 / 2;
+  grid-row: 2 / 3;
+}
+#down {
+  height: 100%;
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+}
+#right {
+  height: 100%;
+  grid-column: 3 / 4;
+  grid-row: 2 / 3;
+}
 canvas {
   background-color: #000;
 }

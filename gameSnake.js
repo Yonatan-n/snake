@@ -144,7 +144,7 @@ function isPhone () {
 
 function initArrowControls () {
   let myEvent = isPhone() ? 'touchstart' : 'click'
-  const ctrl = document.querySelector('#controls')
+  const ctrl = document.querySelectorAll('#arrowBlock')[0]
   let arrows = ctrl.children
   const falseMove = {
     'up': 'down',
@@ -154,8 +154,9 @@ function initArrowControls () {
   }
   for (let i = 0; i < arrows.length; i++) {
     arrows[i].addEventListener(myEvent, function (x) {
-      if (falseMove[x.target.id] !== snake.dir) {
-        snake.dir = x.target.id
+      const direction = x.target.parentNode.id
+      if (falseMove[direction] !== snake.dir) {
+        snake.dir = direction
       }
     })
   } // need to add falseMove to this function too, cause you can make a u turn with out the u

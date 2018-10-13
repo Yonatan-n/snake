@@ -36,7 +36,7 @@ body {
 }
 
 .arrows {
-  border: 2px solid black;
+  border: 2px solid transparent;
   color: cornflowerblue;
   background-color: #ccc;
   font-size: 2em;
@@ -51,8 +51,9 @@ body {
 }
 #arrowBlock {
   /* background: red; */
+  margin-top: 2em;
   display: grid;
-  width: 50%;
+  width: 80%;
   grid-template: 1fr 1fr 1fr/ 1fr 1fr 1fr;
 /*   grid-template-rows: 5em 5em;
   grid-column: auto 2fr auto; */
@@ -60,6 +61,7 @@ body {
 #up {
   /* font-size: 2em; */
   height: 100%;
+  width: 100%;
   grid-column: 2 / 3;
   grid-row: 1 / 2;
   /* font-size: 3em; */

@@ -39,7 +39,7 @@ var snake = {
     return this.tail[this.length - 1]
   },
   move: function () {
-    let change
+    let change = []
     const spd = this.speed
     switch (this.dir) {
       case 'right':
@@ -58,19 +58,49 @@ var snake = {
         console.error('error with snake dir', new Error())
         break
     }
-    const hd = snake.tail[snake.length - 1]
+    // const nextHd = snake.hd()
+    let nextHd = snake.tail[snake.length - 1]
     snake.tail.shift()
     snake.tail.push({
-      x: hd.x + change[0],
-      y: hd.y + change[1]
+      x: nextHd.x + change[0],
+      y: nextHd.y + change[1]
     })
+    nextHd = snake.tail[snake.length - 1]
+    if (nextHd.x > 560 || nextHd.x < 0 || nextHd.y > 560 || nextHd.y < 0) {
+      snake.tail.pop()
+      let nextChange = [nextHd.x, nextHd.y]
+      console.log(nextHd)
+      if (nextHd.x > 580) {
+        nextChange[0] = 0
+      } else if (nextHd.x < 0) {
+        nextChange[0] = 600
+      } else if (nextHd.y > 580) {
+        nextChange[1] = 0
+      } else if (nextHd.y < 0) {
+        nextChange[1] = 600
+      }
+      snake.tail.push({
+        x: nextChange[0],
+        y: nextChange[1]
+      })
+    }
+    console.log(change)
+    // const nextHd = snake.tail[snake.length - 1]
+
+    /* if (nextHd.x > 580) {
+      snake.tail.pop()
+      snake.tail.push({
+        x: 0,
+        y: nextHd.y
+      })
+    } */
   }
 }
 window.onload = function () {
   initCanvas()
   initArrowControls()
   funkTitle()
-  for (let i = 0; i <= 580; i += 20) {
+  for (let i = 0; i <= 580; i += 20) { // [0, 20 .. 580]
     snake.grid.push(i)
   }
   genRandFood()
@@ -203,4 +233,7 @@ function deathSequence () {
   document.querySelector('#death').innerText = Number(death) + 1
   snake.color = 'white'
   // alert('dead! refresh 4 now')
+}
+function victorySequence () {
+  console.log('you won!')
 }

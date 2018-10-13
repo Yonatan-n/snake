@@ -34,10 +34,8 @@ var snake = {
     { x: 60, y: 200 },
     { x: 80, y: 200 }
   ],
+  color: 'green',
   food: { x: 580, y: 580 },
-  incSpeedX: function () {
-    this.x += this.speed
-  },
   hd: function () {
     return this.tail[this.length - 1]
   },
@@ -77,6 +75,7 @@ window.onload = function () {
     snake.grid.push(i)
   }
   genRandFood()
+  changeSnakeColor()
 }
 
 function isPhone () {
@@ -168,6 +167,8 @@ function draw () {
     snake.tail.unshift(snake.tail[0])
     snake.length += 1
     genRandFood()
+    changeSnakeColor()
+    document.querySelector('#score').innerText = snake.length - 5
   } // check if food is eaten, inc snake if does and draw new food
   snake.tail.slice(0, snake.length - 1).forEach(block => {
     if (eqJson(block, snake.hd())) {
@@ -181,7 +182,7 @@ function drawAllWithBorder (xy) {
   const wd = snake.width
   ctx.fillStyle = 'black'
   ctx.fillRect(xy[0], xy[1], wd, wd)
-  ctx.fillStyle = 'yellow'
+  ctx.fillStyle = snake.color
   ctx.fillRect(xy[0] + (br / 2), xy[1] + (br / 2), wd - br, wd - br)
 }
 
@@ -190,6 +191,10 @@ function genRandFood () {
     x: randChoice(snake.grid),
     y: randChoice(snake.grid)
   }
+}
+function changeSnakeColor () {
+  snake.color = randChoice(colorList)
+  return 0
 }
 function eqJson (a, b) {
   return JSON.stringify(a) === JSON.stringify(b)

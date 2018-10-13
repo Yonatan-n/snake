@@ -105,7 +105,8 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   // Override the current require with this new one
   return newRequire;
 })({"gameSnake.js":[function(require,module,exports) {
-var canvas = document.getElementById('snakeCanvas');
+var canvas = document.getElementById('snakeCanvas'); // you are here!!! make sure to declate vars in startSnakeGame and mae a form for levels and such
+
 var ctx = canvas.getContext('2d');
 var colorList = ['green', 'blue', 'burlywood', 'violet', 'pink', 'crimson', 'cadetblue', 'rosybrown', 'royalblue', 'red', 'rebeccapurple', 'yellowgreen', 'yellow', 'palevioletred', 'palegreen', 'salmon', 'aqua'];
 var snake = {
@@ -176,8 +177,7 @@ var snake = {
 
     if (nextHd.x > 560 || nextHd.x < 0 || nextHd.y > 560 || nextHd.y < 0) {
       snake.tail.pop();
-      var nextChange = [nextHd.x, nextHd.y];
-      console.log(nextHd);
+      var nextChange = [nextHd.x, nextHd.y]; // console.log(nextHd)
 
       if (nextHd.x > 580) {
         nextChange[0] = 0;
@@ -193,9 +193,8 @@ var snake = {
         x: nextChange[0],
         y: nextChange[1]
       });
-    }
-
-    console.log(change); // const nextHd = snake.tail[snake.length - 1]
+    } // console.log(change)
+    // const nextHd = snake.tail[snake.length - 1]
 
     /* if (nextHd.x > 580) {
       snake.tail.pop()
@@ -204,10 +203,27 @@ var snake = {
         y: nextHd.y
       })
     } */
+
   }
 };
 
 window.onload = function () {
+  var settings = "\n  <form action='' method='get'>\n  <h1>snake speed:</h1>\n  <div class='speedForm'>\n    <label for='slow'>Nice and slow</label>\n    <input type='radio' name='speed' class='speedForm' checked id='slow' value='6.5'>\n  </div>\n  <div class='speedForm'>\n    <label for='mid'>Ok i guess?</label>\n    <input type='radio' name='speed' class='speedForm' id='mid' value='10'>\n  </div>\n  <div class='speedForm'>\n    <label for='fast'>Kinda fast</label>\n    <input type='radio' name='speed' class='speedForm' id='fast' value='18'>\n  </div>\n  <input type=\"submit\" value=\"Submit\">\n  </form>";
+  document.getElementById('main').style.display = 'none';
+  document.getElementById('form').innerHTML = settings;
+  var spd = location.search.split('=')[1];
+
+  if (spd) {
+    document.getElementById('form').style.display = 'none';
+    startSnakeGame({
+      speed: spd
+    });
+  }
+};
+
+function startSnakeGame(args) {
+  document.getElementById('main').style.display = 'grid';
+  window.snakePerFrame = args.speed;
   initCanvas();
   initArrowControls();
   funkTitle();
@@ -219,7 +235,7 @@ window.onload = function () {
 
   genRandFood();
   changeSnakeColor();
-};
+}
 
 function isPhone() {
   var flag = document.querySelector('#isPhone');
@@ -291,7 +307,7 @@ function initCanvas() {
   ctx.stroke(); // console.log(new Date())
   // window.requestAnimationFrame(draw)
 
-  window.setInterval(draw, 1000 / 10); // Main Loop!
+  window.setInterval(draw, 1000 / window.snakePerFrame); // Main Loop!
 }
 
 function randRange(l, h) {

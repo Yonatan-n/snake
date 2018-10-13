@@ -1,4 +1,4 @@
-var canvas = document.getElementById('snakeCanvas')
+var canvas = document.getElementById('snakeCanvas') // you are here!!! make sure to declate vars in startSnakeGame and mae a form for levels and such
 var ctx = canvas.getContext('2d')
 const colorList = [
   'green',
@@ -69,7 +69,7 @@ var snake = {
     if (nextHd.x > 560 || nextHd.x < 0 || nextHd.y > 560 || nextHd.y < 0) {
       snake.tail.pop()
       let nextChange = [nextHd.x, nextHd.y]
-      console.log(nextHd)
+      // console.log(nextHd)
       if (nextHd.x > 580) {
         nextChange[0] = 0
       } else if (nextHd.x < 0) {
@@ -84,7 +84,7 @@ var snake = {
         y: nextChange[1]
       })
     }
-    console.log(change)
+    // console.log(change)
     // const nextHd = snake.tail[snake.length - 1]
 
     /* if (nextHd.x > 580) {
@@ -97,6 +97,34 @@ var snake = {
   }
 }
 window.onload = function () {
+  const settings = `
+  <form action='' method='get'>
+  <h1>snake speed:</h1>
+  <div class='speedForm'>
+    <label for='slow'>Nice and slow</label>
+    <input type='radio' name='speed' class='speedForm' checked id='slow' value='6.5'>
+  </div>
+  <div class='speedForm'>
+    <label for='mid'>Ok i guess?</label>
+    <input type='radio' name='speed' class='speedForm' id='mid' value='10'>
+  </div>
+  <div class='speedForm'>
+    <label for='fast'>Kinda fast</label>
+    <input type='radio' name='speed' class='speedForm' id='fast' value='18'>
+  </div>
+  <input type="submit" value="Submit">
+  </form>`
+  document.getElementById('main').style.display = 'none'
+  document.getElementById('form').innerHTML = settings
+  const spd = location.search.split('=')[1]
+  if (spd) {
+    document.getElementById('form').style.display = 'none'
+    startSnakeGame({ speed: spd })
+  }
+}
+function startSnakeGame (args) {
+  document.getElementById('main').style.display = 'grid'
+  window.snakePerFrame = args.speed
   initCanvas()
   initArrowControls()
   funkTitle()
@@ -169,7 +197,7 @@ function initCanvas () {
   ctx.stroke()
   // console.log(new Date())
   // window.requestAnimationFrame(draw)
-  window.setInterval(draw, 1000 / 10) // Main Loop!
+  window.setInterval(draw, 1000 / window.snakePerFrame) // Main Loop!
 }
 
 function randRange (l, h) {

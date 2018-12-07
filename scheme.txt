@@ -1,0 +1,15 @@
+table top10
+  name: abc :: Text
+  score 123 :: smallInt
+  id :: primary key id smallInt
+
+
+retro-snake::DATABASE=> CREATE TABLE top10(
+retro-snake::DATABASE(> ID smallserial primary key,
+retro-snake::DATABASE(> name text not null,
+retro-snake::DATABASE(> score smallint not null,
+retro-snake::DATABASE(> onDate DATE DEfault current_date);
+CREATE TABLE
+
+id SMALLSERIAL PRIMARY KEY
+up_date DATE DEFAULT CURRENT_DATE

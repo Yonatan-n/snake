@@ -30,6 +30,10 @@ body {
   margin: 0;
   color: rgb(12, 110, 155);
 }
+.menu {
+  margin: 10px;
+  
+}
 .death {
   margin: 0;
   color: rgb(209, 44, 113);
@@ -105,4 +109,8 @@ canvas {
 }
 .speedForm {
   font-size: 24px;
+}
+.deathForm {
+  font-size: 24px;
+  color: black;
 }
